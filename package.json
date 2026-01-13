@@ -1,0 +1,24 @@
+{
+  "name": "apps-web-servicios",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PerlitaSolve/Apps-Web-Servicios.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/PerlitaSolve/Apps-Web-Servicios/issues"
+  },
+  "homepage": "https://github.com/PerlitaSolve/Apps-Web-Servicios#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

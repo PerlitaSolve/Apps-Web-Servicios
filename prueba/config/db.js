@@ -1,16 +1,14 @@
-const {Pool} = require('pg');
+//const {Pool} = require('pg');
+const pg= require('pg');
 require('dotenv').config();
 
-const pool= new Pool({
+const pool= new pg.Pool({
     host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
     port: process.env.DB_PORT,
-    waitForConnections: true,
-    connectionLimit:10,
-    queueLimit:0
-});
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD
+});     
 
 pool.connect()
     .then(client=> {
@@ -19,4 +17,4 @@ pool.connect()
     })
     .catch(err => console.error('Error de conexion:', err));
 
-module.exports=pool; 
+module.exports= pool; 

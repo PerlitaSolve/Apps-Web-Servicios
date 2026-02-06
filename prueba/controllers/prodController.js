@@ -1,11 +1,11 @@
 const pool = require('../config/db'); //Solo se hace la importacion hacia la configuración de la BD
  
-const getProductos = async (req, res)=>{  //Funcion landa
+const getProductos = async (req, res)=>{  //Funcion lamda
     try{  //dentro va la logica de negocios
-        const {rows}= await pool.query('SELECT * FROM awos_tienda.productos');
-        res.json(rows);
-    }catch(error){
-        res.status(500).json({error: 'Error del servidor'});
+        const rows= await pool.query('SELECT * FROM productos');
+        res.json(rows.rows);
+    }catch(e){
+        res.status(500).json({error: e});
     }
 };
 
@@ -13,21 +13,31 @@ const createProducto = async (req, res)=>{
     
     const {nombre, precio, stock}= req.body;
 
-    if(!nombre || nombre.trim()===''){
+    
+
+    try{
+        
+        if(!nombre || nombre.trim()===''){
             return res.status(400).json({error: 'Ingrese un nombre'});
         }else if(!parseInt(precio) || precio <=0){
             return res.status(400).json({error: 'El precio debe ser un entero mayor a 0'});
-        }else if(!parseInt (stock)){
-            return res.status(400).json({error: 'El stock debe ser un numero entero'});
+        }else if(Number.isInteger(stock)){
+            const resultado= await pool.query ('INSERT INTO productos (nombre, precio,stock) VALUES ($1,$2,$3) RETURNING id', [nombre, precio, stock]);
+            res.status(201).json({
+                id: resultado.rows[0].id,
+                name: nombre,
+                costo: precio, 
+                cantidad: stock
+            });
+        }else{
+            return res.status(400).json({error: 'El stock debe ser un entero'});
         }
 
-    try{
-        const {resultado}= await pool.query ('INSERT INTO awos_tienda.productos (nombre, precio,stock) VALUES ($1,$2,$3) RETURNING id', [nombre, precio, stock]);
-        res.status(201).json({id: resultado[0].id, nombre,precio, stock});
+        
 
         
     }catch(error){
-        res.status(500).json({mensaje: 'Error al guardar'});
+        res.status(500).json({mensaje: error});
     }
 }
 
@@ -37,7 +47,7 @@ const putProducto = async (req, res)=>{
 
     try{
 
-        const {rows}= await pool.query (`UPDATE awos_tienda.productos SET precio= $1, stock= $2 WHERE id= $3`, [precio, stock, idBusqueda]);
+        const rows= await pool.query (`UPDATE productos SET precio= $1, stock= $2 WHERE id= $3`, [precio, stock, idBusqueda]);
         if(rows.rowCount===0){
             return  res.status(404).json ({error: "Producto no encontrado"});
         }
@@ -57,7 +67,7 @@ const deleteProducto = async (req, res)=>{
     const idBusqueda= parseInt(req.params.id);
 
     try{
-        const {rows}= await pool.query (`DELETE FROM awos_tienda.productos WHERE id= $1`, [idBusqueda]);
+        const rows= await pool.query (`DELETE FROM productos WHERE id= $1`, [idBusqueda]);
         if(rows.rowCount===0){
             return  res.status(404).json ({error: "Producto no encontrado"});
         }

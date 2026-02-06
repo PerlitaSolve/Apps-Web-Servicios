@@ -13,10 +13,10 @@ boton.addEventListener('click', async ()=>{
             const li = document.createElement('li');
 
             if (producto.stock <= 0){
-                li.innerHTML = `<li>${producto.nombre} - ${producto.precio}- ${producto.stock}</li>`;//inyeccion de html con el innerhtml
+                li.innerHTML = `${producto.nombre} - ${producto.precio}- ${producto.stock}`;//inyeccion de html con el innerhtml
                 
             }else{
-                li.innerHTML = `<li>${producto.nombre} - ${producto.precio} - <span style="color:red">${producto.stock}</span></li>`;//inyeccion de html a stock
+                li.innerHTML = `${producto.nombre} - ${producto.precio} - <span style="color:red">${producto.stock}</span>`;//inyeccion de html a stock
                 
             }
             lista.appendChild(li);

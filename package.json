@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/PerlitaSolve/Apps-Web-Servicios#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mysql2": "^3.16.1"
   }
 }

@@ -5,7 +5,7 @@ const cors= require ('cors');
 const app = express();
 require('dotenv').config();
 
-const productoRoutes = require('./routes/route'); // Importa el route.js
+const productoRoutes = require('./src/routes/productoRoute'); // Importa el route.js
 
 app.use(cors());
 app.use(express.json());
